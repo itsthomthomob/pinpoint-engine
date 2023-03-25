@@ -1,5 +1,10 @@
 # Pinpoint Engine
 
+## Pre-reqs
+- GLAD headers
+- GLFW headers
+- CMake
+
 ## Instructions
 1. Clone repo
 2. Open in VSCode
