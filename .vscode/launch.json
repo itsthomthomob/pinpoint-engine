@@ -17,6 +17,9 @@
             "externalConsole": true,
             "MIMode": "gdb",
             "linux": {
+                "name": "c++ Launch",
+                "type": "cppdbg",
+                "request": "launch",
                 "program": "${workspaceRoot}/builds/linux/main",
                 "setupCommands": [
                     {
@@ -27,8 +30,11 @@
                 ],
             },
             "windows": {
+                "name": "c++ Launch",
+                "type": "cppdbg",
+                "request": "launch",
                 "program": "${workspaceRoot}/builds/windows/main",
-                "miDebuggerPath": "C:\\MinGW\\bin\\gdb.exe"
+                "miDebuggerPath": "C:/msys64/mingw64/bin/gdb.exe"
             },
             "setupCommands": [
                 {
