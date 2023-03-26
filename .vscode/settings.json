@@ -1,10 +1,9 @@
 {
-    "cmake.configureOnOpen": false,
-    "cmake.configureSettings": {
-        "CMAKE_GENERATOR": "Visual Studio 17 2019",
-        "CMAKE_BUILD_TYPE": "Debug"
-    },
-    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.cmakePath": "C:\\msys64\\mingw64\\bin\\cmake.exe",
+    "cmake.mingwSearchDirs": [
+      "C:\\msys64\\mingw64\\bin"
+   ],
+   "cmake.generator": "MinGW Makefiles",
     "files.associations": {
         "atomic": "cpp",
         "cmath": "cpp",
