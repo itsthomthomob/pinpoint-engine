@@ -20,5 +20,29 @@ Pinpoint Engine is a game engine I am (trying) to develop to further my graphica
 ## Troubleshooting
 - Remember that the `build` directory is in the .gitignore, so use cmake to build the directory again for new clones
 
+## Proctoring the Project Structure
+```
+pinpoint-engine
+├─ .vscode
+│  ├─ settings.json
+│  └─ tasks.json
+├─ CMakeLists.txt
+├─ LICENSE.txt
+├─ README.md
+├─ src
+│  ├─ main.cpp
+│  └─ shaders
+│     ├─ fragmentShader.GLSL
+│     └─ vertexShader.GLSL
+└─ vendor
+   ├─ CMakeLists.txt
+   ├─ glad
+   │  ├─ ...
+   └─ glfw
+      ├─ ...
+
+```
+
+
 ## Special Thanks
 Thank you to reddit user 0xIsho for providng an awesome template for OpenGL projects. Original template can be found [here](https://gitlab.com/0xIsho/BasicGL).

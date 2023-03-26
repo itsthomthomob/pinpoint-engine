@@ -1,4 +1,10 @@
 {
+    "cmake.configureOnOpen": false,
+    "cmake.configureSettings": {
+        "CMAKE_GENERATOR": "Visual Studio 17 2019",
+        "CMAKE_BUILD_TYPE": "Debug"
+    },
+    "cmake.buildDirectory": "${workspaceFolder}/build",
     "files.associations": {
         "atomic": "cpp",
         "cmath": "cpp",
