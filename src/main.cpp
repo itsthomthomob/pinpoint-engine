@@ -1,6 +1,8 @@
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
+#include "RenderingAPI/points.h"
+
 #include <iostream>
 
 // -------------------------------------------------------
@@ -40,14 +42,36 @@ void drawTriangle()
 {
 
 	// OpenGL code
-
-	glClearColor(.8F, .8F, .8F, 1.0F);
+	glClearColor(.2F, .2F, .2F, 1.0F);
 
 	// 2D triangle, each vertix has the same Z-index so it appears 2-dimensional
-	float vertices[] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f};
+
+	// Doesn't work
+	
+	// Point p1 = Point(-0.5f, -0.5f, 0.0f);
+	// Point p2 = Point(0.5f, -0.5f, 0.0f);
+	// Point p3 = Point(0.0f, -0.5f, 0.0f);
+
+	// float vertices[] = {
+	// 	p1.x, p1.y, p1.z,
+	// 	p2.x, p2.y, p2.z,
+	// 	p3.x, p3.y, p3.z
+	// };
+
+	// float vertices2[] = {
+	// 	-0.5f, -0.5f, 0.0f,
+	// 	0.5f, -0.5f, 0.0f,
+	// 	0.0f, -0.5f, 0.0f
+	// };
+
+	// Works
+	float point1[] = {-0.5f, -0.5f, 0.0f,};
+	float point2[] = {0.5f, -0.5f, 0.0f,};
+	float point3[] = {0.0f, 0.5f, 0.0f,};
+
+	float vertices[] = {point1[0], point1[1], point1[2],
+						point2[0], point2[1], point2[2],
+						point3[0], point3[1], point3[2]};
 
 	// VBO OpenGL object
 	unsigned int VBO;
@@ -98,7 +122,7 @@ void drawTriangle()
 	const char *fragmentShaderSource = "#version 330 core\n"
 									   "out vec4 FragColor;\n"
 									   "void main(){\n"
-									   "    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+									   "    FragColor = vec4(0.0f, 0.0f, 1.0f, 1.0f);\n"
 									   "}\0";
 
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
