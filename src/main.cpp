@@ -38,36 +38,23 @@ void processInput(GLFWwindow *window)
 
 // drawTriangle
 // - Draws a triangle using vertex shaders and fragment shaders
-void drawTriangle()
+void drawTriangle(float vertices2[], int vertexCount)
 {
-
-	// OpenGL code
-	glClearColor(.2F, .2F, .2F, 1.0F);
-
-	// 2D triangle, each vertix has the same Z-index so it appears 2-dimensional
-
-	// Doesn't work
-	
-	// Point p1 = Point(-0.5f, -0.5f, 0.0f);
-	// Point p2 = Point(0.5f, -0.5f, 0.0f);
-	// Point p3 = Point(0.0f, -0.5f, 0.0f);
-
-	// float vertices[] = {
-	// 	p1.x, p1.y, p1.z,
-	// 	p2.x, p2.y, p2.z,
-	// 	p3.x, p3.y, p3.z
-	// };
-
-	// float vertices2[] = {
-	// 	-0.5f, -0.5f, 0.0f,
-	// 	0.5f, -0.5f, 0.0f,
-	// 	0.0f, -0.5f, 0.0f
-	// };
-
-	// Works
-	float point1[] = {-0.5f, -0.5f, 0.0f,};
-	float point2[] = {0.5f, -0.5f, 0.0f,};
-	float point3[] = {0.0f, 0.5f, 0.0f,};
+	float point1[] = {
+		vertices2[0],
+		vertices2[1],
+		vertices2[2],
+	};
+	float point2[] = {
+		vertices2[2],
+		vertices2[3],
+		vertices2[4],
+	};
+	float point3[] = {
+		vertices2[5],
+		vertices2[6],
+		vertices2[7],
+	};
 
 	float vertices[] = {point1[0], point1[1], point1[2],
 						point2[0], point2[1], point2[2],
@@ -100,24 +87,7 @@ void drawTriangle()
 	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
 	glCompileShader(vertexShader);
 
-	// Determine if shader compiled correctly
-	int shaderSuccess;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &shaderSuccess);
-
-	// Log compile results
-	if (!shaderSuccess)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
-				  << infoLog << std::endl;
-	}
-	else
-	{
-		std::cout << "Shader Compiled." << std::endl;
-	}
-
-	// Fragment Shader
+	// Fragment Shader source code
 	unsigned int fragmentShader;
 	const char *fragmentShaderSource = "#version 330 core\n"
 									   "out vec4 FragColor;\n"
@@ -125,53 +95,31 @@ void drawTriangle()
 									   "    FragColor = vec4(0.0f, 0.0f, 1.0f, 1.0f);\n"
 									   "}\0";
 
+	// Compile fragment shader
 	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
 	glCompileShader(fragmentShader);
-
-	// Determine if shader compiled correctly
-	int fragmentSuccess;
-	char fragmentLog[512];
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragmentSuccess);
-
-	// Log compile results
-	if (!fragmentSuccess)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, fragmentLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n"
-				  << fragmentLog << std::endl;
-	}
-	else
-	{
-		std::cout << "Fragment Compiled." << std::endl;
-	}
 
 	// Create shader program
 	unsigned int shaderProgram;
 	shaderProgram = glCreateProgram();
 
-	// Link previous shaders to program
+	// Link previous fragment and vertex shaders to program
 	// TODO: Check if linked correctly
 	glAttachShader(shaderProgram, vertexShader);
 	glAttachShader(shaderProgram, fragmentShader);
 	glLinkProgram(shaderProgram);
 
-	// Activates the shader program
 	glUseProgram(shaderProgram);
 
 	// Delete shaders since we dont need them anymore (saves memory)
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	// Specify how OpenGL should interpret vertex data before rendering
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-	glEnableVertexAttribArray(0);
-
 	// Vertex Array Object
 	// - Similar to VBO, required to draw stuff
 	// - Helps compact data and allows us to change stuff
 
-	// ..:: Initialization code (done once (unless your object frequently changes)) :: ..
 	// 1. bind Vertex Array Object
 	unsigned int VAO;
 	glGenVertexArrays(1, &VAO);
@@ -198,6 +146,22 @@ void renderLoop(GLFWwindow *window)
 	glViewport(0, 0, 800, 600);
 	glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
+	// OpenGL code
+	glClearColor(.2F, .2F, .2F, 1.0F);
+
+	// Point is a custom struct with X, Y, Z
+	Point p1 = Point(-0.5f, -0.5f, 0.0f);
+	Point p2 = Point(0.5f, -0.5f, 0.0f);
+	Point p3 = Point(0.0f, -0.5f, 0.0f);
+
+	// TODO: Make adaptive.
+	int vertexCount = 9;
+
+	float vertices[] = {
+		p1.x, p1.y,
+		p2.x, p2.y,
+		p3.x, p3.y};
+
 	while (!glfwWindowShouldClose(window))
 	{
 		// Process window input
@@ -207,7 +171,7 @@ void renderLoop(GLFWwindow *window)
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// Draw scene here
-		drawTriangle();
+		drawTriangle(vertices, vertexCount);
 
 		// Swap buffers
 		glfwSwapBuffers(window);
