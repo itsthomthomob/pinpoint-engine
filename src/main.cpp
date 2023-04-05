@@ -2,8 +2,11 @@
 #include "GLFW/glfw3.h"
 
 #include "RenderingAPI/points.h"
+#include "RenderingAPI/Renderer.h"
+#include "RenderingAPI/Buffer.h"
 
 #include <iostream>
+#include <memory>
 
 // -------------------------------------------------------
 // Pinpoint Engine
@@ -38,27 +41,8 @@ void processInput(GLFWwindow *window)
 
 // drawTriangle
 // - Draws a triangle using vertex shaders and fragment shaders
-void drawTriangle(float vertices2[], int vertexCount)
+void drawTriangle(float vertices[], float vertexCount)
 {
-	float point1[] = {
-		vertices2[0],
-		vertices2[1],
-		vertices2[2],
-	};
-	float point2[] = {
-		vertices2[2],
-		vertices2[3],
-		vertices2[4],
-	};
-	float point3[] = {
-		vertices2[5],
-		vertices2[6],
-		vertices2[7],
-	};
-
-	float vertices[] = {point1[0], point1[1], point1[2],
-						point2[0], point2[1], point2[2],
-						point3[0], point3[1], point3[2]};
 
 	// VBO OpenGL object
 	unsigned int VBO;
@@ -68,7 +52,9 @@ void drawTriangle(float vertices2[], int vertexCount)
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
 	// Bind the vertices data to the VBO via GL array buffer
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertexCount, vertices, GL_STATIC_DRAW);
+
+
 
 	// Refer to sharders/vertexShader.GLSL
 	const char *vertexShaderSource = "#version 330 core\n"
@@ -127,7 +113,7 @@ void drawTriangle(float vertices2[], int vertexCount)
 
 	// 2. copy our vertices array in a buffer for OpenGL to use
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertexCount, vertices, GL_STATIC_DRAW);
 
 	// 3. then set our vertex attributes pointers
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
@@ -149,18 +135,26 @@ void renderLoop(GLFWwindow *window)
 	// OpenGL code
 	glClearColor(.2F, .2F, .2F, 1.0F);
 
-	// Point is a custom struct with X, Y, Z
-	Point p1 = Point(-0.5f, -0.5f, 0.0f);
-	Point p2 = Point(0.5f, -0.5f, 0.0f);
-	Point p3 = Point(0.0f, -0.5f, 0.0f);
+	// Create a new Point instance using a std::unique_ptr
+	Point p1(-0.5f, -0.5f, 0.0f);
+    //p1->Create(1.0f, 2.0f, 3.0f);
 
-	// TODO: Make adaptive.
-	int vertexCount = 9;
+	Point p2(0.5f, -0.5f, 0.0f);
+    //p2->Create(0.5f, -0.5f, 0.0f);
 
+	Point p3(0.0f, 0.5f, 0.0f);
+    //p3->Create(0.0f, -0.5f, 0.0f);
+
+	// Works with raw numbers, but not from points?
 	float vertices[] = {
-		p1.x, p1.y,
-		p2.x, p2.y,
-		p3.x, p3.y};
+		p1.x, p1.y, p1.z,
+		p2.x, p2.y, p2.z,
+		p3.x, p3.y, p3.z};
+	
+	// float vertices[] = {
+	// 	p1.x, p1.y, p1.z,
+	// 	p2.x, p2.x, p2.z,
+	// 	p3.x, p3.x, p3.z};
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -171,7 +165,7 @@ void renderLoop(GLFWwindow *window)
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// Draw scene here
-		drawTriangle(vertices, vertexCount);
+		drawTriangle(vertices, sizeof(vertices));
 
 		// Swap buffers
 		glfwSwapBuffers(window);
@@ -210,4 +204,6 @@ int main()
 
 	glfwDestroyWindow(win);
 	glfwTerminate();
+
+	return 1;
 }

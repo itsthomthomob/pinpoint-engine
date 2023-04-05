@@ -2,7 +2,7 @@
 
 #include "Renderer.h"
 
-#include "src/OpenGL/OpenGLBuffer.h"
+#include "OpenGL/OpenGLBuffer.h"
 // TODO: Switch based on graphics driver
 // #IF_PLATFORM_WINDOWS
 // # DO DIRECTBUFFER
