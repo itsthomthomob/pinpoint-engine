@@ -2,7 +2,6 @@
 #include "GLFW/glfw3.h"
 
 #include "RenderingAPI/points.h"
-#include "RenderingAPI/Renderer.h"
 #include "RenderingAPI/Buffer.h"
 
 #include <iostream>
@@ -41,20 +40,13 @@ void processInput(GLFWwindow *window)
 
 // drawTriangle
 // - Draws a triangle using vertex shaders and fragment shaders
-void drawTriangle(float vertices[], float vertexCount)
+void drawTriangle(float vertices[], float size)
 {
 
-	// VBO OpenGL object
-	unsigned int VBO;
-	glGenBuffers(1, &VBO);
-
-	// Bind a block of memory to VBO
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-	// Bind the vertices data to the VBO via GL array buffer
-	glBufferData(GL_ARRAY_BUFFER, vertexCount, vertices, GL_STATIC_DRAW);
-
-
+	// VBO OpenGL object, create new instance of VertexBuffer
+	VertexBuffer *vb = new VertexBuffer(vertices, size);
+	vb->SetData(vertices, size);
+	vb->Bind();
 
 	// Refer to sharders/vertexShader.GLSL
 	const char *vertexShaderSource = "#version 330 core\n"
@@ -102,28 +94,11 @@ void drawTriangle(float vertices[], float vertexCount)
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	// Vertex Array Object
-	// - Similar to VBO, required to draw stuff
-	// - Helps compact data and allows us to change stuff
 
-	// 1. bind Vertex Array Object
-	unsigned int VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-
-	// 2. copy our vertices array in a buffer for OpenGL to use
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertexCount, vertices, GL_STATIC_DRAW);
-
-	// 3. then set our vertex attributes pointers
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
 	glEnableVertexAttribArray(0);
 
-	// TODO
-	// - Look at Element Array Buffer
-
 	glUseProgram(shaderProgram);
-	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
@@ -137,24 +112,22 @@ void renderLoop(GLFWwindow *window)
 
 	// Create a new Point instance using a std::unique_ptr
 	Point p1(-0.5f, -0.5f, 0.0f);
-    //p1->Create(1.0f, 2.0f, 3.0f);
 
 	Point p2(0.5f, -0.5f, 0.0f);
-    //p2->Create(0.5f, -0.5f, 0.0f);
 
 	Point p3(0.0f, 0.5f, 0.0f);
-    //p3->Create(0.0f, -0.5f, 0.0f);
 
-	// Works with raw numbers, but not from points?
 	float vertices[] = {
 		p1.x, p1.y, p1.z,
 		p2.x, p2.y, p2.z,
 		p3.x, p3.y, p3.z};
-	
+
 	// float vertices[] = {
 	// 	p1.x, p1.y, p1.z,
 	// 	p2.x, p2.x, p2.z,
 	// 	p3.x, p3.x, p3.z};
+
+	std::cout << "Preparing render loop";
 
 	while (!glfwWindowShouldClose(window))
 	{
