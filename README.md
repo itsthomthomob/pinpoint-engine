@@ -10,6 +10,10 @@
 ## Context
 Pinpoint Engine is a game engine I am (trying) to develop to further my graphical programming, rendering, and C++ skills for a purely educational experience. 
 
+## To Do
+- Finish abstractification of fragment and vertex shaders
+- Create new Shape class, clean out OpenGL code in main.cpp
+
 ## Pre-reqs
 - GLAD headers
 - GLFW headers

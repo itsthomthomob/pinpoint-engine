@@ -48,6 +48,11 @@ void drawTriangle(float vertices[], float size)
 	vb->SetData(vertices, size);
 	vb->Bind();
 
+	// TODO:
+	// - Abstractify vertex shader class
+	// - Abstractify fragment shader class
+	// - Create shape class
+
 	// Refer to sharders/vertexShader.GLSL
 	const char *vertexShaderSource = "#version 330 core\n"
 									 "layout (location = 0) in vec3 aPos;\n"
@@ -111,6 +116,7 @@ void renderLoop(GLFWwindow *window)
 	glClearColor(.2F, .2F, .2F, 1.0F);
 
 	// Create a new Point instance using a std::unique_ptr
+	// TODO: Create a "shape" class and draw from shape
 	Point p1(-0.5f, -0.5f, 0.0f);
 
 	Point p2(0.5f, -0.5f, 0.0f);
