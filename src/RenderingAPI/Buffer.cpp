@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <vector>
 
 #include "Buffer.h"
 
@@ -13,7 +14,7 @@
 // #ENDIF
 #include "Buffer.h"
 
-VertexBuffer::VertexBuffer(float *vertices, float size)
+VertexBuffer::VertexBuffer(std::vector<float> *vertices, float size)
     : m_RendererID(0)
 {
      std::cout << "Creating VertexBuffer.";

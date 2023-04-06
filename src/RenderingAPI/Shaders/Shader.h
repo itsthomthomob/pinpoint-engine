@@ -140,7 +140,7 @@ public:
     void use()
     {
         glUseProgram(ID);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        //glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 
     // utility uniform functions

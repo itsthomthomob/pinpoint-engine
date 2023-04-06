@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <io>
+#include <vector
 
 // -----------------------------------------------------------------------------
 //                                  VERTEX BUFFER
@@ -36,7 +37,7 @@ OpenGLVertexBuffer::OpenGLVertexBuffer(float *vertices, float size)
     this->Create(vertices, size);
 }
 
-OpenGLVertexBuffer *OpenGLVertexBuffer::Create(float *vertices, uint32_t size)
+OpenGLVertexBuffer *OpenGLVertexBuffer::Create(std::vector<float> *vertices, uint32_t size)
 {
     // VBO OpenGL object
     unsigned int VBO;

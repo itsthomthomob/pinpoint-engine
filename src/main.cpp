@@ -5,6 +5,8 @@
 #include "RenderingAPI/Buffer.h"
 #include "RenderingAPI/Shaders/Shader.h"
 
+#include "ObjectsAPI/Objects.h"
+
 #include <iostream>
 #include <memory>
 
@@ -39,22 +41,22 @@ void processInput(GLFWwindow *window)
 		glfwSetWindowShouldClose(window, true);
 }
 
-// drawTriangle
-// - Draws a triangle using vertex shaders and fragment shaders
-void drawTriangle(float vertices[], float size)
-{
-	// TODO:
-	// - Create shape class
+// // drawScene
+// // - Draws a triangle using vertex shaders and fragment shaders
+// void drawScene(float vertices[], float size)
+// {
+// 	// TODO:
+// 	// - Create shape class
 
-	// VBO OpenGL object, create new instance of VertexBuffer
-	VertexBuffer *vb = new VertexBuffer(vertices, size);
-	vb->SetData(vertices, size);
-	vb->Bind();
+// 	// VBO OpenGL object, create new instance of VertexBuffer
+// 	VertexBuffer *vb = new VertexBuffer(vertices, size);
+// 	vb->SetData(vertices, size);
+// 	vb->Bind();
 
-	Shader shader("C:\\Users\\Thomas\\Desktop\\Projects\\pinpoint-engine\\pinpoint-engine\\src\\RenderingAPI\\Shaders\\vertexShader.vs",
-				  "C:\\Users\\Thomas\\Desktop\\Projects\\pinpoint-engine\\pinpoint-engine\\src\\RenderingAPI\\Shaders\\fragmentShader.fs");
-	shader.use();
-}
+// 	Shader shader("C:\\Users\\Thomas\\Desktop\\Projects\\pinpoint-engine\\pinpoint-engine\\src\\RenderingAPI\\Shaders\\vertexShader.vs",
+// 				  "C:\\Users\\Thomas\\Desktop\\Projects\\pinpoint-engine\\pinpoint-engine\\src\\RenderingAPI\\Shaders\\fragmentShader.fs");
+// 	shader.use();
+// }
 
 void renderLoop(GLFWwindow *window)
 {
@@ -66,21 +68,19 @@ void renderLoop(GLFWwindow *window)
 
 	// Create a new Point instance using a std::unique_ptr
 	// TODO: Create a "shape" class and draw from shape
-	Point p1(-0.5f, -0.5f, 0.0f);
 
-	Point p2(0.5f, -0.5f, 0.0f);
+	Object object;
 
-	Point p3(0.0f, 0.5f, 0.0f);
+	// Point p1(-0.5f, -0.5f, 0.0f);
 
-	float vertices[] = {
-		p1.x, p1.y, p1.z,
-		p2.x, p2.y, p2.z,
-		p3.x, p3.y, p3.z};
+	// Point p2(0.5f, -0.5f, 0.0f);
+
+	// Point p3(0.0f, 0.5f, 0.0f);
 
 	// float vertices[] = {
 	// 	p1.x, p1.y, p1.z,
-	// 	p2.x, p2.x, p2.z,
-	// 	p3.x, p3.x, p3.z};
+	// 	p2.x, p2.y, p2.z,
+	// 	p3.x, p3.y, p3.z};
 
 	std::cout << "Preparing render loop";
 
@@ -93,7 +93,8 @@ void renderLoop(GLFWwindow *window)
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		// Draw scene here
-		drawTriangle(vertices, sizeof(vertices));
+		// drawScene(vertices, sizeof(vertices));
+		object.drawSquare(1, 1, 0, 1);
 
 		// Swap buffers
 		glfwSwapBuffers(window);
