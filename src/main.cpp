@@ -3,6 +3,7 @@
 
 #include "RenderingAPI/points.h"
 #include "RenderingAPI/Buffer.h"
+#include "RenderingAPI/Shaders/Shader.h"
 
 #include <iostream>
 #include <memory>
@@ -42,69 +43,17 @@ void processInput(GLFWwindow *window)
 // - Draws a triangle using vertex shaders and fragment shaders
 void drawTriangle(float vertices[], float size)
 {
+	// TODO:
+	// - Create shape class
 
 	// VBO OpenGL object, create new instance of VertexBuffer
 	VertexBuffer *vb = new VertexBuffer(vertices, size);
 	vb->SetData(vertices, size);
 	vb->Bind();
 
-	// TODO:
-	// - Abstractify vertex shader class
-	// - Abstractify fragment shader class
-	// - Create shape class
-
-	// Refer to sharders/vertexShader.GLSL
-	const char *vertexShaderSource = "#version 330 core\n"
-									 "layout (location = 0) in vec3 aPos;\n"
-									 "void main()\n"
-									 "{\n"
-									 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-									 "}\0";
-
-	// Create a shader object of type "shader"
-	unsigned int vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-	// Attach shader to shader source code
-	// - shader object, how many strings, the string
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-
-	// Fragment Shader source code
-	unsigned int fragmentShader;
-	const char *fragmentShaderSource = "#version 330 core\n"
-									   "out vec4 FragColor;\n"
-									   "void main(){\n"
-									   "    FragColor = vec4(0.0f, 0.0f, 1.0f, 1.0f);\n"
-									   "}\0";
-
-	// Compile fragment shader
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-
-	// Create shader program
-	unsigned int shaderProgram;
-	shaderProgram = glCreateProgram();
-
-	// Link previous fragment and vertex shaders to program
-	// TODO: Check if linked correctly
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-
-	glUseProgram(shaderProgram);
-
-	// Delete shaders since we dont need them anymore (saves memory)
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-	glEnableVertexAttribArray(0);
-
-	glUseProgram(shaderProgram);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	Shader shader("C:\\Users\\Thomas\\Desktop\\Projects\\pinpoint-engine\\pinpoint-engine\\src\\RenderingAPI\\Shaders\\vertexShader.vs",
+				  "C:\\Users\\Thomas\\Desktop\\Projects\\pinpoint-engine\\pinpoint-engine\\src\\RenderingAPI\\Shaders\\fragmentShader.fs");
+	shader.use();
 }
 
 void renderLoop(GLFWwindow *window)
