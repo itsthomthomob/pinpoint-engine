@@ -86,7 +86,7 @@ int main()
 	const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
 	// Create a window with the maximum width and height
-	auto *win = glfwCreateWindow(mode->width, mode->height, "Pinpoint Engine", glfwGetPrimaryMonitor(), nullptr);
+	auto *win = glfwCreateWindow(900, 900, "Pinpoint Engine", nullptr, nullptr);
 
 	// Create window context
 	glfwMakeContextCurrent(win);

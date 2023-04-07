@@ -33,25 +33,31 @@ Pinpoint Engine is a game engine I am (trying) to develop to further my graphica
 ```
 pinpoint-engine
 ├─ .vscode
-│  ├─ settings.json
-│  └─ tasks.json
+│  ├─ tasks, etc.
 ├─ CMakeLists.txt
 ├─ LICENSE.txt
 ├─ README.md
 ├─ src
 │  ├─ main.cpp
-│  └─ shaders
-│     ├─ fragmentShader.GLSL
-│     └─ vertexShader.GLSL
+│  ├─ ObjectsAPI
+│  │  ├─ object controllers
+│  ├─ Pinpoint
+│  │  └─ namespace
+│  └─ RenderingAPI
+│     ├─ Buffer.cpp
+│     ├─ Buffer.h
+│     ├─ OpenGL
+│     │  ├─ OpenGL Objects
+│     ├─ points.h
+│     ├─ Renderer.cpp
+│     ├─ Renderer.h
+│     └─ Shaders
+│        ├─ fragmetn and vertex shaders
 └─ vendor
    ├─ CMakeLists.txt
    ├─ glad
-   │  ├─ ...
+   |  └─ exes, cpps, hs, etc...
    └─ glfw
-      ├─ ...
+      └─ exes, cpps, hs, etc...
 
 ```
-
-
-## Special Thanks
-Thank you to reddit user 0xIsho for providng an awesome template for OpenGL projects. Original template can be found [here](https://gitlab.com/0xIsho/BasicGL).

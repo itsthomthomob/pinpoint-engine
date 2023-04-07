@@ -26,7 +26,7 @@ public:
     {
         glGenBuffers(1, &m_RendererID);
         glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-        glBufferData(GL_ARRAY_BUFFER, dataSize, &data, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(dataSize), &data, GL_STATIC_DRAW);
 
         unsigned int VAO;
         glGenVertexArrays(1, &VAO);
