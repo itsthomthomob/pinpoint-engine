@@ -1,7 +1,6 @@
 class OpenGLArrayObject{
    public:
         OpenGLArrayObject(float *vertices, float size);
-        virtual ~OpenGLArrayObject() {}
 
         virtual void SetData() const;
         virtual void Bind() const;

@@ -2,17 +2,17 @@
 //                             VERTEX ARRAY BUFFER
 // -----------------------------------------------------------------------------
 
-void OpenGLArrayObject::SetData() const
+void SetData()
 {
     
 }
 
-void OpenGLArrayObject::Bind() const
+void Bind()
 {
     
 }
 
-OpenGLArrayObject* OpenGLArrayObject::Create(float *vertices, float size)
+OpenGLArrayObject* Create(float *vertices, float size)
 {
     
 }
