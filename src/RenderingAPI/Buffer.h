@@ -16,24 +16,34 @@ public:
     std::vector<float> *vertices;
     float size;
 
-    VertexBuffer(std::vector<float> *vertices, float size) : m_RendererID(0) {}
+    VertexBuffer(std::vector<float> *vertices, float size) : m_RendererID(1) {}
     ~VertexBuffer()
     {
         glDeleteBuffers(1, &m_RendererID);
     }
 
-    void SetData(std::vector<float> *data, float dataSize)
+    void SetData(std::vector<float> &data, float dataSize)
     {
-        vertices = data;
-        size = dataSize;
         glGenBuffers(1, &m_RendererID);
         glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-        glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, dataSize, &data, GL_STATIC_DRAW);
 
         unsigned int VAO;
         glGenVertexArrays(1, &VAO);
         glBindVertexArray(VAO);
-        std::cout << "Set data." << std::endl;
+
+        int success;
+        char infoLog[512];
+
+        // print compile errors if any
+        glGetBufferParameteriv(GL_ARRAY_BUFFER, GL_FRAMEBUFFER_BINDING, &success);
+        if (!success)
+        {
+            std::cout << "ERROR::BUFFER::SETDATA::COMPILATION_FAILED\n"
+                      << infoLog << std::endl;
+            // TODO: Make proper
+            system("PAUSE");
+        };
     }
 
     void Bind() const
@@ -44,27 +54,11 @@ public:
 
     void Unbind() const
     {
+        glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glDeleteBuffers(1, &m_RendererID);
     }
 
-    VertexBuffer *Create()
-    {
-        std::cout << "Creating VertexBuffer.";
-
-        // TODO: Make proper, switch on GetAPI()
-
-        // VBO OpenGL object
-        unsigned int VBO;
-        glGenBuffers(1, &VBO);
-
-        // Bind a block of memory to VBO
-        glBindBuffer(GL_ARRAY_BUFFER, VBO);
-
-        // Bind the vertices data to the VBO via GL array buffer
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-        return nullptr;
-    }
     uint32_t m_RendererID;
 };
 

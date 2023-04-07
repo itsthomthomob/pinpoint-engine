@@ -41,26 +41,9 @@ void processInput(GLFWwindow *window)
 		glfwSetWindowShouldClose(window, true);
 }
 
-// // drawScene
-// // - Draws a triangle using vertex shaders and fragment shaders
-// void drawScene(float vertices[], float size)
-// {
-// 	// TODO:
-// 	// - Create shape class
-
-// 	// VBO OpenGL object, create new instance of VertexBuffer
-// 	VertexBuffer *vb = new VertexBuffer(vertices, size);
-// 	vb->SetData(vertices, size);
-// 	vb->Bind();
-
-// 	Shader shader("C:\\Users\\Thomas\\Desktop\\Projects\\pinpoint-engine\\pinpoint-engine\\src\\RenderingAPI\\Shaders\\vertexShader.vs",
-// 				  "C:\\Users\\Thomas\\Desktop\\Projects\\pinpoint-engine\\pinpoint-engine\\src\\RenderingAPI\\Shaders\\fragmentShader.fs");
-// 	shader.use();
-// }
-
 void renderLoop(GLFWwindow *window)
 {
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, 1000, 1200);
 	glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
 	// OpenGL code
@@ -68,21 +51,7 @@ void renderLoop(GLFWwindow *window)
 
 	// Create a new Point instance using a std::unique_ptr
 	// TODO: Create a "shape" class and draw from shape
-
 	Object object;
-
-	// Point p1(-0.5f, -0.5f, 0.0f);
-
-	// Point p2(0.5f, -0.5f, 0.0f);
-
-	// Point p3(0.0f, 0.5f, 0.0f);
-
-	// float vertices[] = {
-	// 	p1.x, p1.y, p1.z,
-	// 	p2.x, p2.y, p2.z,
-	// 	p3.x, p3.y, p3.z};
-
-	std::cout << "Preparing render loop";
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -94,7 +63,7 @@ void renderLoop(GLFWwindow *window)
 
 		// Draw scene here
 		// drawScene(vertices, sizeof(vertices));
-		object.drawSquare(1, 1, 0, 1);
+		object.drawSquare(0.2f, 0.5f, 0, 1, 2);
 
 		// Swap buffers
 		glfwSwapBuffers(window);
@@ -113,8 +82,11 @@ int main()
 		return 1;
 	}
 
-	// Window settings
-	auto *win = glfwCreateWindow(800, 600, "Pinpoint Engine", nullptr, nullptr);
+	// Get the current video mode of the primary monitor
+	const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+
+	// Create a window with the maximum width and height
+	auto *win = glfwCreateWindow(mode->width, mode->height, "Pinpoint Engine", glfwGetPrimaryMonitor(), nullptr);
 
 	// Create window context
 	glfwMakeContextCurrent(win);

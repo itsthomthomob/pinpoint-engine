@@ -47,19 +47,19 @@ void VertexBuffer::Unbind() const
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-VertexBuffer *VertexBuffer::Create()
-{
-    std::cout << "Creating VertexBuffer.";
-    switch (Renderer::GetAPI())
-    {
-    case RendererAPI::API::None:
-        return nullptr;
-    case RendererAPI::API::OpenGL:
-        return new OpenGLVertexBuffer();
-    }
+// VertexBuffer *VertexBuffer::Create()
+// {
+//     std::cout << "Creating VertexBuffer.";
+//     switch (Renderer::GetAPI())
+//     {
+//     case RendererAPI::API::None:
+//         return nullptr;
+//     case RendererAPI::API::OpenGL:
+//         return new OpenGLVertexBuffer();
+//     }
 
-    return nullptr;
-}
+//     return nullptr;
+// }
 
 IndexBuffer *IndexBuffer::Create()
 {

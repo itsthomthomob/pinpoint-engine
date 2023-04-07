@@ -8,6 +8,8 @@
 #include <sstream>
 #include <iostream>
 
+#include "ObjectsAPI/Shapes.h"
+
 // --------------------------------------------------------
 // Refer to https://learnopengl.com/Getting-started/Shaders
 //
@@ -17,6 +19,9 @@
 //
 // --------------------------------------------------------
 
+/// @brief 
+/// Basic shader class.
+/// 
 class Shader
 {
 public:
@@ -137,10 +142,22 @@ public:
     }
 
     // use/activate the shader
-    void use()
+    void use(Shapes shape, VertexBuffer& vb)
     {
         glUseProgram(ID);
-        //glDrawArrays(GL_TRIANGLES, 0, 3);
+        
+        switch (shape)
+        {
+        case Shapes::Triangle:
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+            break;
+        case Shapes::Square:
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+            break;
+        case Shapes::Circle:
+            // draw circle
+            break;
+        }
     }
 
     // utility uniform functions
